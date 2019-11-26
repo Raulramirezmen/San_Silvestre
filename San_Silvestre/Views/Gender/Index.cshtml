@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Datos de Género";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@Scripts.Render("~/Scripts/jquery.dataTables.min.js")
+@Scripts.Render("~/Scripts/dataTables.bootstrap.js")
+@Scripts.Render("~/Scripts/bootstrap-multiselect.js")
+@Scripts.Render("~/Scripts/jquery-sortable.js")
+@Scripts.Render("~/Scripts/SanSilScripts/Gender.js")
+@Styles.Render("~/Content/dataTables.bootstrap.css")
+@Styles.Render("~/Content/bootstrap-multiselect.css")
+@Styles.Render("~/Content/SapTeThemes/Employee.css")
+
+
+
+<script type="text/javascript">
+    var DeleteGenderUrl = '@Url.Action("DeleteGender", "Gender")';
+    var AddNewGenderLink = '@Url.Action("AddNewGender", "Gender")';
+    var UpdateNewGenderLink = '@Url.Action("UpdateGenderData", "Gender")';
+    var RefreshGenderDataLink = '@Url.Action("RefreshGenderData", "Gender")';
+</script>
+
+<div style="width: 100%; font-family: verdana; text-align: center;">
+    <div style="margin-top: 30px;">
+        <div id="TravelReportFunctionsId" style=" width: 98%; margin: 5px; margin-top: 20px; margin-left: 1%; padding-right: 15px; padding-left: 15px;">
+            <div style="text-align: right; display: inline-table; width: 98%;">
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#AddGenderModal" data-backdrop="static" data-keyboard="false" onclick=" GenderAddAction.ResetFilelds();">
+                    <span class="glyphicon glyphicon-plus"></span> Añadir Género
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="CommonGenderFunctionality.RefreshData();"><span class="glyphicon glyphicon-refresh"></span> Refrescar Datos</button>
+            </div>
+        </div>
+        <div id="GenderDataTarget">
+            @{Html.RenderPartial("GenderDataGrid");}
+        </div>
+        @*<div id="AddNewGenderModalId">
+            @{Html.RenderPartial("AddGenderData");}
+        </div>
+        <div id="EditGenderModalId">
+            @{Html.RenderPartial("EditGenderData");}
+        </div>*@
+    </div>
+</div>

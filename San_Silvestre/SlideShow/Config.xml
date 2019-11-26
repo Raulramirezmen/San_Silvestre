@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration width="700" height ="400" background ="silver">
+  <modules>
+    <module type="SlideViewer">
+      <option name="bottom" value="0" />
+      <option name="slideImage.stretch" value="UniformToFill" />
+    </module>
+    
+    <module type="ProgressBar" />
+    <module type="SlideDescription" />
+    <module type="NavigationTray" >
+      <option name="ThumbnailViewer.left" value="83" />
+    </module>
+  </modules>
+  <transitions>
+    <transition type="FadeTransition" name="CrossFadeTransition" />
+    <transition type="WipeTransition" name="WipeRightTransition" >
+      <option name ="direction" value="Right" />
+    </transition>
+  </transitions>
+  <dataProvider type ="XmlDataProvider">
+    <option name="url" value="/slideshow/data.xml" />
+  </dataProvider>
+</configuration>

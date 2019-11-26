@@ -1,0 +1,49 @@
+﻿@model IEnumerable<SanSil.DAL.Category>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Gestion de Categorias</h2>
+@*<button id="addCategory" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#AddCategoryModal" title="Add Category">Añadir Categoria</button>*@
+<button id="addCategory" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Create", "Category")'">Añadir Categoria</button>
+
+
+<script type="text/javascript">
+    var DeleteCategoryUrl = '@Url.Action("DeleteCategory", "Category")';
+    var AddNewCategoryLink = '@Url.Action("AddNewCategory", "Category")';
+    var UpdateCategoryLink = '@Url.Action("UpdateCategory", "Category")';
+    var RefreshCategoryDataLink = '@Url.Action("RefreshCategoryData", "Category")';
+</script>
+
+
+<div id="CategoryDataContainerId">
+    <div id="CatgoryDataResultTableContainerId" style="font-size:11px">
+        <table id="CategoryDataTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Identificador</th>
+                    <th>Categoria</th>
+                    <th>Accion</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var data in Model)
+                {
+                    <tr>
+                        <td>@data.Id</td>
+                        <td>@data.Name</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#EditGenderModal" data-backdrop="static" data-keyboard="false" onclick="EditGenderActions.PopulateModalForEdit(this);">
+                                <span class="glyphicon glyphicon-edit"></span> Edit
+                            </button>
+                            <button type="button" class="btn btn-primary btn-xs" onclick="GenderDeleteAction.ConfirmOnDeleteClick(this);">
+                                <span class="glyphicon glyphicon-trash"></span> Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

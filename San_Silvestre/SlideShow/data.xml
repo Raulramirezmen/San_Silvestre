@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<data transition ="WipeRightTransition">
+  <album title="Futbol">
+    <slide image="/slideshow/Fotos_2015/DSC_0002.JPG" 
+           title="Manicura-Pedicura" 
+           Description="Uñas perfectas en tan solo 30 minutos" />
+    <slide tittle ="Unnas de Gel"
+           image="/slideshow/Fotos_2015/DSC_0003.JPG" 
+           Description="Las manos, que forman parte esencial de la estética femenina y masculina."/>
+    <slide image="/slideshow/Fotos_2015/DSC_0004.JPG" 
+           tittle ="Decoraciones" />
+    <slide image="/slideshow/Fotos_2015/DSC_0005.JPG" 
+           title="Acrilicas (porcelana)" />
+    <slide image="/slideshow/Fotos_2015/DSC_0008.JPG" 
+           title="Foto Futbol" />
+  </album>
+         
+</data>

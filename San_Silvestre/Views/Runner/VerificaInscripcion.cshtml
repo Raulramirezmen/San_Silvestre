@@ -1,0 +1,256 @@
+﻿@model San_Silvestre.Models.RunnerModel
+@using Roles = SanSil.BLL.Enums.Roles;
+
+@{
+    ViewBag.Title = "VerificaInscripcion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/Scripts/SanSilScripts/SanSil.Dialog.js")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        //$('#DNI').on('blur', function () {
+        //    if (SanSil.valida_nif_cif_nie() < 0) {
+        //        BootstrapDialog.show({
+        //            type: BootstrapDialog.TYPE_INFO,
+        //            title: "San Silvestre Villa de Mora - 2019",
+        //            message: "Nif/Nie Incorrecto. Introduzca un valor valido.",
+        //            buttons: [
+        //                {
+        //                    cssClass: "btn-primary btn-md",
+        //                    label: "Ok",
+        //                    action: function (dialog) {
+        //                        dialog.close();
+        //                        $('#DNI').val('');
+        //                        $('#DNI').focus;
+        //                    }
+        //                }
+        //            ]
+        //        });
+        //    }
+        //});
+
+        $(function () {
+            $('#BtnVerificar').click(function (e) {
+                e.preventDefault();
+                var dni = document.getElementById('DNI').value.toUpperCase();
+                if (SanSil.valida_nif_cif_nie() > 0) {
+                    $.ajax({
+                        url: "/Runner/VerificaRunner" ,
+                        type: "Post",
+                        datatype: "json",
+                        data: {
+                            pDNI: dni
+                        },
+                        success: function (result) {
+                            if (result.Status == true) {
+                                $('#Name').val(result.Data.Name + ' ' + result.Data.SurName);
+                                $('#Email').val(result.Data.Email);
+                                $('#Club').val(result.Data.Club);
+                                $('#YearBirthday').val(result.Data.YearBirthday);
+                                if (result.Data.GenderId == "M") {
+                                    $('#GenderId').val('Masculino');
+                                }
+                                else {
+                                    $('#GenderId').val('Femenino');
+                                };
+
+                                $('#PostalCode').val(result.Data.PostalCode);
+                                $('#Telephone').val(result.Data.Telephone);
+                                $('#DNI2').val(result.Data.DNI);
+                            }
+                            else {
+                                SanSil.ClearInputVerificar();
+                                BootstrapDialog.show({
+                                    type: BootstrapDialog.TYPE_DANGER,
+                                    title: "San Silvestre - 2015",
+                                    message: result.Message,
+                                    buttons: [
+                                        {
+                                            cssClass: "btn-danger btn-md",
+                                            label: "Ok",
+                                            action: function (dialog) {
+                                                dialog.close();
+                                            }
+                                        }
+                                    ]
+                                });
+                            }
+                        },
+                        error: function (result) {
+                            SanSil.ClearInputVerificar();
+                            BootstrapDialog.show({
+                                type: BootstrapDialog.TYPE_DANGER,
+                                title: "San Silvestre - 2015",
+                                message: result.Message,
+                                buttons: [
+                                    {
+                                        cssClass: "btn-danger btn-md",
+                                        label: "Ok",
+                                        action: function (dialog) {
+                                            dialog.close();
+                                        }
+                                    }
+                                ]
+                            });
+                        }
+                    });
+                    return false;
+
+                }
+                else {
+                    SanSil.ClearInputVerificar();
+                    BootstrapDialog.show({
+                        type: BootstrapDialog.TYPE_INFO,
+                        title: "San Silvestre - 2015",
+                        message: "NIF/NIE incorrecto. Introduzca un valor valido.",
+                        buttons: [
+                            {
+                                cssClass: "btn-primary btn-md",
+                                label: "Ok",
+                                action: function (dialog) {
+                                    dialog.close();
+                                }
+                            }
+                        ]
+                    });
+                }
+            });
+        });
+
+    });
+</script>
+
+<h2>San Silvestre Villa de Mora - 2019</h2>
+
+<form id="VerificarRunnerForm">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.AntiForgeryToken()
+    <div id="verificaRunnerError" class="alert alert-danger" role="alert" style="display: none;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span></span>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-offset-1 , col-md-10">
+            <div style="border: 2px solid #a1a1a1;padding: 10px 40px; border-radius: 5px;">
+                <br />
+                <div class="form-group, form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label style=" padding-top : 10px"> Verifica tu inscripción </label>
+                        </div>
+                        <div class="col-md-offset-4">
+                            <div class="col-md-3" style="padding-left:0px">
+                                @Html.DropDownListFor(model => model.DocumentTypeId, Model.DocumentTypeAvailables, "", new { @class = "form-control", id = "DocumentTypeId" })
+                            </div>
+                            <div class="col-md-4" style="padding-left:0px">
+                                @Html.TextBoxFor(model => model.DNI, new { @class = "form-control text-uppercase", id = "DNI" })
+                            </div>
+                            <button id="BtnVerificar" class="btn btn-primary btn-sm" title="Verificar">Verificar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h3 class="col-md-offset-1"> Datos del corredor</h3>
+
+    <div class="row">
+        <div class="col-md-offset-2 , col-md-9">
+            <div style="border: 2px solid #a1a1a1;padding: 10px 40px; border-radius: 5px;">
+                <br />
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-3">
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", id = "Name", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-3">
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", id = "Email", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Club, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-3">
+                            @Html.TextBoxFor(model => model.Club, new { @class = "form-control", id = "Club", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.YearBirthday, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-4" style="width: 30%" ;>
+                            @Html.TextBoxFor(model => model.YearBirthday, new { @class = "form-control", width = "50%", id = "YearBirthday", @readonly = "readonly", Value = Model.YearBirthday == 0 ? "" : Model.YearBirthday.ToString()  })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @*<label style=" padding-top : 10px"> Sexo </label>*@
+                            @Html.LabelFor(model => model.GenderId, new { @class = "control-label", style = " padding-top : 10px" })
+                        </div>
+                        <div class="col-md-offset-4" style="width: 30%" ;>
+                            @Html.TextBoxFor(model => model.GenderId, new { @class = "form-control", id = "GenderId", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.PostalCode, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-4" style="width: 30%" ;>
+                            @Html.TextBoxFor(model => model.PostalCode, new { @class = "form-control", id = "PostalCode", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Telephone, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-4" style="width: 30%" ;>
+                            @Html.TextBoxFor(model => model.Telephone, new { @class = "form-control", id = "Telephone", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label style=" padding-top : 10px"> DNI,NIE </label>
+                        </div>
+                        <div class="col-md-offset-4" style="width: 30%" ;>
+                            @Html.TextBoxFor(model => model.DNI, new { @class = "form-control text-uppercase", id = "DNI2", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+

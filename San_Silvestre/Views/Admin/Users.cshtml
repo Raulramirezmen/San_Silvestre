@@ -1,0 +1,195 @@
+﻿@model List<San_Silvestre.Models.UserModel>
+@using Roles = SanSil.BLL.Enums.Roles;
+
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/Scripts/jquery.dataTables.min.js")
+@Scripts.Render("~/Scripts/dataTables.bootstrap.js")
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+@Scripts.Render("~/Scripts/selectize.js")
+@Scripts.Render("~/Scripts/SapTe.validate.js")
+@Scripts.Render("~/Scripts/SapTe.user.js")
+@Styles.Render("~/Content/dataTables.bootstrap.css")
+@Styles.Render("~/Content/selectize.bootstrap3.css")
+
+<script>
+
+    var RefreshUserDataLink = '@Url.Action("RefreshEmployeeData", "Admin")';
+
+    $(function() {
+
+        $("#userTable").dataTable({
+            dom: "<'top'f>rt<'bottom'lpi><'clear'>",
+            columns: [
+                { data: "UserId", visible: false },
+                { data: "UserName", width: "35px" },
+                { data: "FullName", width: "110px" },
+                { data: "EmailID", width: "90px" },
+                { data: "IsActive", width: "20px" },
+                { data: "Role", width: "45px" },
+                {
+                    data: null,
+                    className: "center",
+                    sortable: false,
+                    defaultContent: "<a href='' class='edit_user'><span class='btn btn-primary btn-xs glyphicon glyphicon-edit' data-backdrop='static' data-keyboard='false'> Edit </span></a><a href='' class='delete_user'><span class='btn btn-primary btn-xs glyphicon glyphicon-trash' data-backdrop='static' data-keyboard='false'> Delete </span></a>",
+                    width: "100px"
+                }
+            ],
+            order: [[2, "asc"]],
+            pagingType: "full_numbers",
+            language: {
+                sProcessing:    "Procesando...",
+                sLengthMenu:    "Mostrar _MENU_ registros",
+                sZeroRecords:   "No se encontraron resultados",
+                sEmptyTable:    "Ningún dato disponible en esta tabla",
+                sInfo:          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                sInfoEmpty:     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                sInfoFiltered:  "(filtrado de un total de _MAX_ registros)",
+                sInfoPostFix:   "",
+                sSearch:        "Buscar:",
+                sUrl:           "",
+                sInfoThousands:  ",",
+                sLoadingRecords: "Cargando...",
+                oPaginate: {
+                    sFirst:    "Primero",
+                    sLast:    "Último",
+                    sNext:    "Siguiente",
+                    sPrevious: "Anterior"
+                },
+                oAria: {
+                    sSortAscending:  ": Activar para ordenar la columna de manera ascendente",
+                    sSortDescending: ": Activar para ordenar la columna de manera descendente"
+                },
+                paginate: {
+                    first: "<span class='glyphicon glyphicon-step-backward'></span>",
+                    previous: "<span class='glyphicon glyphicon-triangle-left'></span>",
+                    next: "<span class='glyphicon glyphicon-triangle-right'></span>",
+                    last: "<span class='glyphicon glyphicon-step-forward'></span>"
+                }
+            }
+        });
+
+        var userTable = $("#userTable").DataTable();
+
+        $("#addUser").on("click", function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/Admin/EditUser/0",
+                error: function() {
+                    sapte.showError("Couldn't load 'Add user'");
+                    dialog.close();
+                },
+                success: function(data) {
+                    sapte.showCustom(
+                        data,
+                        "Añadir nuevo usuario",
+                        "Guardar",
+                        function (dialog) {
+                            if (!$("#editUserForm").valid()) return false;
+                            $("#editUserForm").submit();
+                            dialog.close();
+                            return false;
+                        },
+                        function() {
+                            $("#editUserForm #User").focus();
+                        });
+                }
+            });
+        });
+
+
+
+        // Edit a record
+        $("#userTable").on("click", "a.edit_user", function (e) {
+            e.preventDefault();
+            context: this;
+            var id = userTable.row($(this).closest("tr")).data().UserId;
+
+            $.ajax({
+                url: "/Admin/EditUser/" + id ,
+                async: false,
+                //data: {
+                //    UserId: id
+                //},
+                error: function () {
+                    sapte.showError("Couldn't load 'Edit user'");
+                    dialog.close();
+                },
+                success: function (data) {
+                    sapte.showCustom(
+                        data,
+                        "Edit user",
+                        "Guardar",
+                        function (dialog) {
+                            if (!$("#editUserForm").valid()) return false;
+                            $("#editUserForm").submit();
+                            dialog.close();
+                            return false;
+                        },
+                        function () {
+                            $("#editUserForm #User").focus();
+                        });
+                }
+            });
+        });
+
+        // Delete a record
+        $("#userTable").on("click", "a.delete_user", function (e) {
+            e.preventDefault();
+            context: this;
+            debugger
+            var id = userTable.row($(this).closest("tr")).data().UserId;
+            sapte.showWarning(
+                "Estas seguro de que quieres eliminar el Usuario?",
+                "Eliminar Usuario",
+                "Eliminar",
+                function (dialog) {
+                    $.ajax({
+                        url: "/Admin/DeleteUser/" + id,
+                        dataType: "json",
+                        type: "POST"
+                    }).success(function (data) {
+                        sapte.deleteUserSuccess();
+                        dialog.close();
+                    }).error(function (error) {
+                        sapte.showError("Error eliminando usuario");
+                        dialog.close();
+                    });
+                });
+        });
+    });
+</script>
+
+<h2>Gestion de Usuarios</h2>
+
+<button id="addUser" class="btn btn-primary btn-sm" title="Add user">Añadir usuario</button>
+<div id="DivUserTable">
+    <table id="userTable" style="width: 100%;" class="table table-bordered table-striped">
+        <thead>
+            <tr><th>Id</th><th>Usuario</th><th>Nombre y Apellidos</th><th>Email</th><th>Activo</th><th>Rol</th><th></th></tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => user.UserId)</td>
+                        <td>@Html.DisplayFor(modelItem => user.UserName)</td>
+                        <td>@Html.DisplayFor(modelItem => user.FullName)</td>
+                        <td>@Html.DisplayFor(modelItem => user.EmailID)</td>
+                        <td>@Html.DisplayFor(modelItem => user.IsActive)</td>
+                        <td>@Html.DisplayFor(modelItem => user.Role.Name)</td>
+                        <td></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+

@@ -1,0 +1,85 @@
+﻿@model List<San_Silvestre.Models.PositionModel>
+
+@{
+    ViewBag.Title = "PositionView";
+}
+
+<script>
+    var GetTravelReportPrtialView = '@Url.Action("RefreshTravelReportData", "TravelExpenses")';
+
+    $(function() {
+
+        $("#PositionTable").dataTable({
+            dom: "<'top'f>rt<'bottom'lpi><'clear'>",
+            columns: [
+                { data: "PositionId", width: "25px" },
+                { data: "Dorsal", width: "25px" },
+                { data: "RunnerName", width: "110px" },
+                { data: "Club", width: "90px" },
+                { data: "Elapsed_Time", width: "45px" }
+            ],
+            //order: [[1, "asc"]],
+            order: [],
+                "aoColumnDefs": [
+                { 'bSortable': false, 'aTargets': [ 0,1,2,3,4] }
+                ],
+            destroy: true,
+            pagingType: "full_numbers",
+            language: {
+                sProcessing:    "Procesando...",
+                sLengthMenu:    "Mostrar _MENU_ registros",
+                sZeroRecords:   "No se encontraron resultados",
+                sEmptyTable:    "Ningún dato disponible en esta tabla",
+                sInfo:          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                sInfoEmpty:     "Mostrando registros del 0 al 0 de un total de 0 registros",
+                sInfoFiltered:  "(filtrado de un total de _MAX_ registros)",
+                sInfoPostFix:   "",
+                sSearch:        "Buscar:",
+                sUrl:           "",
+                sInfoThousands:  ",",
+                sLoadingRecords: "Cargando...",
+                oPaginate: {
+                    sFirst:    "Primero",
+                    sLast:    "Último",
+                    sNext:    "Siguiente",
+                    sPrevious: "Anterior"
+                },
+                //oAria: {
+                //    sSortAscending:  ": Activar para ordenar la columna de manera ascendente",
+                //    sSortDescending: ": Activar para ordenar la columna de manera descendente"
+                //},
+                paginate: {
+                    first: "<span class='glyphicon glyphicon-step-backward'></span>",
+                    previous: "<span class='glyphicon glyphicon-triangle-left'></span>",
+                    next: "<span class='glyphicon glyphicon-triangle-right'></span>",
+                    last: "<span class='glyphicon glyphicon-step-forward'></span>"
+                }
+            }
+        });
+
+        var PositionTable = $("#PositionTable").DataTable();
+    });
+</script>
+<div id="RunnerContainerId" class="GridContainerClass">
+    <table id="PositionTable" style="width: 100%;" class="table table-bordered table-striped">
+        <thead>
+            <tr><th>Posición</th><th>Dorsal</th><th>Nombre y Apellidos</th><th>Club</th><th>Tiempos</th></tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var Clasificacion in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => Clasificacion.PositionId)</td>
+                        <td>@Html.DisplayFor(modelItem => Clasificacion.Dorsal)</td>
+                        <td>@Html.DisplayFor(modelItem => Clasificacion.RunnerName)</td>
+                        <td>@Html.DisplayFor(modelItem => Clasificacion.Club)</td>
+                        <td>@Html.DisplayFor(modelItem => Clasificacion.Elapsed_Time)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+

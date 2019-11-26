@@ -1,0 +1,806 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SanSilvestreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Competition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="Year" Type="int" />
+        </EntityType>
+        <EntityType Name="Competition_Category">
+          <Key>
+            <PropertyRef Name="CompetitionId" />
+            <PropertyRef Name="CategoryId" />
+            <PropertyRef Name="GenderId" />
+          </Key>
+          <Property Name="CompetitionId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="GenderId" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="YearFrom" Type="int" Nullable="false" />
+          <Property Name="YearTo" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Competition_Runner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompetitionId" Type="int" Nullable="false" />
+          <Property Name="RunnerId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="Dorsal" Type="int" />
+          <Property Name="ElapsedTime" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="GeneralPosition" Type="int" />
+          <Property Name="GenderId" Type="nvarchar" MaxLength="1" />
+          <Property Name="Elapsed_Time" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Thread" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Level" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Logger" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Exception" Type="nvarchar(max)" />
+          <Property Name="Source" Type="varchar" MaxLength="100" />
+          <Property Name="HostName" Type="nvarchar" MaxLength="255" />
+          <Property Name="User" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Runner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SurName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="YearBirthday" Type="int" Nullable="false" />
+          <Property Name="DocumentTypeId" Type="int" />
+          <Property Name="DNI" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telephone" Type="int" />
+          <Property Name="PostalCode" Type="int" />
+          <Property Name="IsLocalRunner" Type="bit" />
+          <Property Name="GenderId" Type="nvarchar" MaxLength="1" />
+          <Property Name="Club" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmailID" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK_Competition_Runner_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Competition_Runner" Type="Self.Competition_Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Runner">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Competition_Runner_Competition">
+          <End Role="Competition" Type="Self.Competition" Multiplicity="1" />
+          <End Role="Competition_Runner" Type="Self.Competition_Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Competition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Runner">
+              <PropertyRef Name="CompetitionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Competition_Runner_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
+          <End Role="Competition_Runner" Type="Self.Competition_Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Runner">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Competition_Runner_Runner">
+          <End Role="Runner" Type="Self.Runner" Multiplicity="1" />
+          <End Role="Competition_Runner" Type="Self.Competition_Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Runner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Runner">
+              <PropertyRef Name="RunnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompetitionCat_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Competition_Category" Type="Self.Competition_Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Category">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompetitionCat_Competition">
+          <End Role="Competition" Type="Self.Competition" Multiplicity="1" />
+          <End Role="Competition_Category" Type="Self.Competition_Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Competition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Category">
+              <PropertyRef Name="CompetitionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompetitionCat_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
+          <End Role="Competition_Category" Type="Self.Competition_Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Category">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Runner_DocumentType">
+          <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="0..1" />
+          <End Role="Runner" Type="Self.Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Runner">
+              <PropertyRef Name="DocumentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Runner_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
+          <End Role="Runner" Type="Self.Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Runner">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SanSilvestreModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Competition" EntityType="Self.Competition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Competition_Category" EntityType="Self.Competition_Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Competition_Runner" EntityType="Self.Competition_Runner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Runner" EntityType="Self.Runner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Competition_Runner_Category" Association="Self.FK_Competition_Runner_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Competition_Runner" EntitySet="Competition_Runner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Competition_Runner_Competition" Association="Self.FK_Competition_Runner_Competition">
+            <End Role="Competition" EntitySet="Competition" />
+            <End Role="Competition_Runner" EntitySet="Competition_Runner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Competition_Runner_Gender" Association="Self.FK_Competition_Runner_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Competition_Runner" EntitySet="Competition_Runner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Competition_Runner_Runner" Association="Self.FK_Competition_Runner_Runner">
+            <End Role="Runner" EntitySet="Runner" />
+            <End Role="Competition_Runner" EntitySet="Competition_Runner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompetitionCat_Category" Association="Self.FK_CompetitionCat_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Competition_Category" EntitySet="Competition_Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompetitionCat_Competition" Association="Self.FK_CompetitionCat_Competition">
+            <End Role="Competition" EntitySet="Competition" />
+            <End Role="Competition_Category" EntitySet="Competition_Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompetitionCat_Gender" Association="Self.FK_CompetitionCat_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Competition_Category" EntitySet="Competition_Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Runner_DocumentType" Association="Self.FK_Runner_DocumentType">
+            <End Role="DocumentType" EntitySet="DocumentType" />
+            <End Role="Runner" EntitySet="Runner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Runner_Gender" Association="Self.FK_Runner_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Runner" EntitySet="Runner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_Role" Association="Self.FK_UserRoles_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_User" Association="Self.FK_UserRoles_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SanSilvestreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Competition_Runner" Relationship="SanSilvestreModel.FK_Competition_Runner_Category" FromRole="Category" ToRole="Competition_Runner" />
+          <NavigationProperty Name="Competition_Category" Relationship="SanSilvestreModel.FK_CompetitionCat_Category" FromRole="Category" ToRole="Competition_Category" />
+        </EntityType>
+        <EntityType Name="Competition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="Int32" />
+          <NavigationProperty Name="Competition_Runner" Relationship="SanSilvestreModel.FK_Competition_Runner_Competition" FromRole="Competition" ToRole="Competition_Runner" />
+          <NavigationProperty Name="Competition_Category" Relationship="SanSilvestreModel.FK_CompetitionCat_Competition" FromRole="Competition" ToRole="Competition_Category" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Runner" Relationship="SanSilvestreModel.FK_Runner_Gender" FromRole="Gender" ToRole="Runner" />
+          <NavigationProperty Name="Competition_Category" Relationship="SanSilvestreModel.FK_CompetitionCat_Gender" FromRole="Gender" ToRole="Competition_Category" />
+          <NavigationProperty Name="Competition_Runner" Relationship="SanSilvestreModel.FK_Competition_Runner_Gender" FromRole="Gender" ToRole="Competition_Runner" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Thread" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Level" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Logger" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Exception" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Source" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="HostName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="User" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserRole" Relationship="Self.FK_UserRoles_Role" FromRole="Role" ToRole="UserRole" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmailID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="UserRole" Relationship="Self.FK_UserRoles_User" FromRole="User" ToRole="UserRole" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_UserRoles_Role" FromRole="UserRole" ToRole="Role" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserRoles_User" FromRole="UserRole" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserRoles_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRoles_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SanSilvestreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Category" EntityType="Self.Category" />
+          <EntitySet Name="Competition" EntityType="Self.Competition" />
+          <EntitySet Name="Gender" EntityType="Self.Gender" />
+          <EntitySet Name="Log" EntityType="Self.Log" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" />
+          <AssociationSet Name="FK_UserRoles_Role" Association="Self.FK_UserRoles_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRoles_User" Association="Self.FK_UserRoles_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <EntitySet Name="Runner" EntityType="SanSilvestreModel.Runner" />
+          <EntitySet Name="Competition_Runner" EntityType="SanSilvestreModel.Competition_Runner" />
+          <AssociationSet Name="FK_Competition_Runner_Category" Association="SanSilvestreModel.FK_Competition_Runner_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Competition_Runner" EntitySet="Competition_Runner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Competition_Runner_Competition" Association="SanSilvestreModel.FK_Competition_Runner_Competition">
+            <End Role="Competition" EntitySet="Competition" />
+            <End Role="Competition_Runner" EntitySet="Competition_Runner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Competition_Runner_Runner" Association="SanSilvestreModel.FK_Competition_Runner_Runner">
+            <End Role="Runner" EntitySet="Runner" />
+            <End Role="Competition_Runner" EntitySet="Competition_Runner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Runner_Gender" Association="SanSilvestreModel.FK_Runner_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Runner" EntitySet="Runner" />
+          </AssociationSet>
+          <EntitySet Name="DocumentType" EntityType="SanSilvestreModel.DocumentType" />
+          <AssociationSet Name="FK_Runner_DocumentType" Association="SanSilvestreModel.FK_Runner_DocumentType">
+            <End Role="DocumentType" EntitySet="DocumentType" />
+            <End Role="Runner" EntitySet="Runner" />
+          </AssociationSet>
+          <EntitySet Name="Competition_Category" EntityType="SanSilvestreModel.Competition_Category" />
+          <AssociationSet Name="FK_CompetitionCat_Category" Association="SanSilvestreModel.FK_CompetitionCat_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Competition_Category" EntitySet="Competition_Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompetitionCat_Competition" Association="SanSilvestreModel.FK_CompetitionCat_Competition">
+            <End Role="Competition" EntitySet="Competition" />
+            <End Role="Competition_Category" EntitySet="Competition_Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompetitionCat_Gender" Association="SanSilvestreModel.FK_CompetitionCat_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Competition_Category" EntitySet="Competition_Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Competition_Runner_Gender" Association="SanSilvestreModel.FK_Competition_Runner_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Competition_Runner" EntitySet="Competition_Runner" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Runner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SurName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentTypeId" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="Int32" />
+          <Property Name="PostalCode" Type="Int32" />
+          <Property Name="GenderId" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Competition_Runner" Relationship="SanSilvestreModel.FK_Competition_Runner_Runner" FromRole="Runner" ToRole="Competition_Runner" />
+          <NavigationProperty Name="Gender" Relationship="SanSilvestreModel.FK_Runner_Gender" FromRole="Runner" ToRole="Gender" />
+          <Property Name="DNI" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Club" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="IsLocalRunner" Type="Boolean" />
+          <NavigationProperty Name="DocumentType" Relationship="SanSilvestreModel.FK_Runner_DocumentType" FromRole="Runner" ToRole="DocumentType" />
+          <Property Name="YearBirthday" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Competition_Runner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompetitionId" Type="Int32" Nullable="false" />
+          <Property Name="RunnerId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="SanSilvestreModel.FK_Competition_Runner_Category" FromRole="Competition_Runner" ToRole="Category" />
+          <NavigationProperty Name="Competition" Relationship="SanSilvestreModel.FK_Competition_Runner_Competition" FromRole="Competition_Runner" ToRole="Competition" />
+          <NavigationProperty Name="Runner" Relationship="SanSilvestreModel.FK_Competition_Runner_Runner" FromRole="Competition_Runner" ToRole="Runner" />
+          <Property Name="Dorsal" Type="Int32" />
+          <Property Name="ElapsedTime" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="GeneralPosition" Type="Int32" />
+          <Property Name="GenderId" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Gender" Relationship="SanSilvestreModel.FK_Competition_Runner_Gender" FromRole="Competition_Runner" ToRole="Gender" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="Elapsed_Time" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Competition_Runner_Category">
+          <End Type="SanSilvestreModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="SanSilvestreModel.Competition_Runner" Role="Competition_Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Runner">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Competition_Runner_Competition">
+          <End Type="SanSilvestreModel.Competition" Role="Competition" Multiplicity="1" />
+          <End Type="SanSilvestreModel.Competition_Runner" Role="Competition_Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Competition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Runner">
+              <PropertyRef Name="CompetitionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Competition_Runner_Runner">
+          <End Type="SanSilvestreModel.Runner" Role="Runner" Multiplicity="1" />
+          <End Type="SanSilvestreModel.Competition_Runner" Role="Competition_Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Runner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Runner">
+              <PropertyRef Name="RunnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Runner_Gender">
+          <End Type="SanSilvestreModel.Gender" Role="Gender" Multiplicity="0..1" />
+          <End Type="SanSilvestreModel.Runner" Role="Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Runner">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Runner" Relationship="SanSilvestreModel.FK_Runner_DocumentType" FromRole="DocumentType" ToRole="Runner" />
+        </EntityType>
+        <Association Name="FK_Runner_DocumentType">
+          <End Type="SanSilvestreModel.DocumentType" Role="DocumentType" Multiplicity="0..1" />
+          <End Type="SanSilvestreModel.Runner" Role="Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Runner">
+              <PropertyRef Name="DocumentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Competition_Category">
+          <Key>
+            <PropertyRef Name="CompetitionId" />
+            <PropertyRef Name="CategoryId" />
+            <PropertyRef Name="GenderId" />
+          </Key>
+          <Property Name="CompetitionId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="GenderId" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="YearFrom" Type="Int32" Nullable="false" />
+          <Property Name="YearTo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="SanSilvestreModel.FK_CompetitionCat_Category" FromRole="Competition_Category" ToRole="Category" />
+          <NavigationProperty Name="Competition" Relationship="SanSilvestreModel.FK_CompetitionCat_Competition" FromRole="Competition_Category" ToRole="Competition" />
+          <NavigationProperty Name="Gender" Relationship="SanSilvestreModel.FK_CompetitionCat_Gender" FromRole="Competition_Category" ToRole="Gender" />
+          <Property Name="Id" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_CompetitionCat_Category">
+          <End Type="SanSilvestreModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="SanSilvestreModel.Competition_Category" Role="Competition_Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Category">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompetitionCat_Competition">
+          <End Type="SanSilvestreModel.Competition" Role="Competition" Multiplicity="1" />
+          <End Type="SanSilvestreModel.Competition_Category" Role="Competition_Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Competition">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Category">
+              <PropertyRef Name="CompetitionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompetitionCat_Gender">
+          <End Type="SanSilvestreModel.Gender" Role="Gender" Multiplicity="1" />
+          <End Type="SanSilvestreModel.Competition_Category" Role="Competition_Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Category">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Competition_Runner_Gender">
+          <End Type="SanSilvestreModel.Gender" Role="Gender" Multiplicity="0..1" />
+          <End Type="SanSilvestreModel.Competition_Runner" Role="Competition_Runner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Competition_Runner">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SanSilvestreModelStoreContainer" CdmEntityContainer="SanSilvestreEntities">
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="SanSilvestreModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Competition">
+            <EntityTypeMapping TypeName="SanSilvestreModel.Competition">
+              <MappingFragment StoreEntitySet="Competition">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gender">
+            <EntityTypeMapping TypeName="SanSilvestreModel.Gender">
+              <MappingFragment StoreEntitySet="Gender">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log">
+            <EntityTypeMapping TypeName="SanSilvestreModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Thread" ColumnName="Thread" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Logger" ColumnName="Logger" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Exception" ColumnName="Exception" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="HostName" ColumnName="HostName" />
+                <ScalarProperty Name="User" ColumnName="User" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="SanSilvestreModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="SanSilvestreModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRole">
+            <EntityTypeMapping TypeName="SanSilvestreModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Runner">
+            <EntityTypeMapping TypeName="SanSilvestreModel.Runner">
+              <MappingFragment StoreEntitySet="Runner">
+                <ScalarProperty Name="YearBirthday" ColumnName="YearBirthday" />
+                <ScalarProperty Name="IsLocalRunner" ColumnName="IsLocalRunner" />
+                <ScalarProperty Name="Club" ColumnName="Club" />
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
+                <ScalarProperty Name="SurName" ColumnName="SurName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Competition_Runner">
+            <EntityTypeMapping TypeName="SanSilvestreModel.Competition_Runner">
+              <MappingFragment StoreEntitySet="Competition_Runner">
+                <ScalarProperty Name="Elapsed_Time" ColumnName="Elapsed_Time" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="GeneralPosition" ColumnName="GeneralPosition" />
+                <ScalarProperty Name="ElapsedTime" ColumnName="ElapsedTime" />
+                <ScalarProperty Name="Dorsal" ColumnName="Dorsal" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="RunnerId" ColumnName="RunnerId" />
+                <ScalarProperty Name="CompetitionId" ColumnName="CompetitionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentType">
+            <EntityTypeMapping TypeName="SanSilvestreModel.DocumentType">
+              <MappingFragment StoreEntitySet="DocumentType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Competition_Category">
+            <EntityTypeMapping TypeName="SanSilvestreModel.Competition_Category">
+              <MappingFragment StoreEntitySet="Competition_Category">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="YearTo" ColumnName="YearTo" />
+                <ScalarProperty Name="YearFrom" ColumnName="YearFrom" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CompetitionId" ColumnName="CompetitionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

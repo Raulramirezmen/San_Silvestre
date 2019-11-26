@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="es-es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - San Silvestre Mora</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimun-scale=1.0" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap.min.css")
+    @Styles.Render("~/Content/sticky-footer-navbar.css")
+    @Scripts.Render("~/Scripts/jquery-2.1.4.min.js")
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/SapTe.misc.js")
+    @Scripts.Render("~/Scripts/bootstrap-dialog.js")
+
+</head>
+<body>
+    <header>
+        <section class="featured">
+            <div class="jumbotron">
+                <div class="content-wrapper">
+                </div>
+                <div class="content-wrapperMenu">
+                    <div class="float-left">
+                        <section id="login">
+                            @*@Html.Partial("_LoginPartial")*@
+                        </section>
+                    </div>
+                    <div class="float-right">
+                        <section id="menues" , style="font-size:14px">
+                            <div class="navbar-collapse collapse">
+                                <ul class="nav navbar-nav">
+                                    @*<li id="NavigationBarAdmin" class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>@Html.ActionLink("Users", "Users", "Admin")</li>
+                                    <li>@Html.ActionLink("Roles", "Roles", "Admin")</li>
+                                    <li>@Html.ActionLink("Logs", "Logs", "Admin")</li>
+                                    <li class="divider"></li>
+                                    <li>@Html.ActionLink("Carreras", "Carreras", "Admin")</li>
+                                    <li>@Html.ActionLink("Atletas", "Atletas", "Admin")</li>
+                                    <li>@Html.ActionLink("Categorias", "Index", "Category")</li>
+                                </ul>
+                            </li>*@
+                                    <li id="NavigationBarCarrera" class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Carrera<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>@Html.ActionLink("Resultados y Clasificaciones", "Index", "Position")</li>
+                                            <li class="divider"></li>
+                                            <li>@Html.ActionLink("Inscribirse", "RunnerEdit", "Runner")</li>
+                                            <li>@Html.ActionLink("Verificar Inscripción", "VerificaInscripcion", "Runner")</li>
+                                            <li class="divider"></li>
+                                            <li>@Html.ActionLink("Categorias", "AnnualCategoryView", "AnnualCategory")</li>
+                                            <li>@Html.ActionLink("Premios", "AwardView", "Award")</li>
+                                            <li>@Html.ActionLink("Horarios y Distancias", "TimeTableView", "TimeTable")</li>
+                                        </ul>
+                                    </li>
+
+                                    <li>@Html.ActionLink("Patrocinadores", "About", "Home")</li>
+                                    <li>@Html.ActionLink("Fotografias", "PhotoView", "Photograph")</li>
+                                    <li>@Html.ActionLink("Contactar", "Contact", "Home")</li>
+                                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+                                    @*<li>@Html.ActionLink("About", "About", "Home")</li>*@
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </header>
+    <div id="body" class="container">
+        <div class ="row">
+            <section class="col-md-9 col-sm-12" >
+                @RenderSection("featured", required: false)
+                @RenderBody()
+            </section>
+            <section class="col-md-3 col-sm-12">
+                <div class="social">
+                    <p>
+                        <h4>Compártelo:</h4>
+                        <a href="https://www.facebook.com/profile.php?id=100000248773293&sk=about&section=contact-info&pnref=about" target="_blank" data-stats="es;ISNFR;779045900">
+                            <img src="~/Images/facebook.png" width="35" height="35" title="Ir a facebook" alt="Ir a facebook" />
+                        </a>&nbsp;
+                        <a href="#" target="blank" data-stats="es;ISNDE;779045900">
+                            <img src="~/Images/twitter.png" width="35" height="35" title="Ir a twiter" alt="Ir a twitter" />
+                        </a>&nbsp;
+                        <a href="#" target="blank" data-stats="es;ISNTW;779045900">
+                            <img src="~/Images/googleplus.png" width="35" height="35" title="Ir a google" alt="Ir a google" />
+                        </a>&nbsp;
+                    </p>
+                </div>
+                <div class="panel panel-default">
+                    @*<div class="panel-heading" sakke></div>*@
+                    <div class="panel-body">
+                        <img src="~/Images/Sakke.png" alt="Sakke" class="img-responsive" />
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    @*<div class="panel-heading" seguros maestro></div>*@
+                    <div class="panel-body">
+                        <img src="~/Images/Seguros_Maestro.png" alt="Sakke" class="img-responsive" />
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    @*<div class="panel-heading" saturnino gómez></div>*@
+                    <div class="panel-body">
+                        <img src="~/Images/logo_saturnino_2.png" alt="Sakke" class="img-responsive" />
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>
+                    &copy; @DateTime.Now.Year - San Silvestre (Mora) - Version @ViewContext.Controller.GetType().Assembly.GetName().Version
+                    @if (MvcApplication.IsTest)
+                    {
+                        @:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <span class="glyphicon glyphicon-warning-sign"></span>
+                        <strong>The application is running in test mode</strong>
+                    }
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    @*@Scripts.Render("~/Scripts/bootstrap-dialog.js")*@
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+

@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/Scripts/jquery.dataTables.min.js")
+@Scripts.Render("~/Scripts/dataTables.bootstrap.js")
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+@Scripts.Render("~/Scripts/selectize.js")
+@Scripts.Render("~/Scripts/SapTe.validate.js")
+@Scripts.Render("~/Scripts/SapTe.user.js")
+@Styles.Render("~/Content/dataTables.bootstrap.css")
+@Styles.Render("~/Content/selectize.bootstrap3.css")
+
+<script>
+
+    $(function() {
+
+        $('#Categories').on('change', function () {
+            var e = document.getElementById("Categories");
+            var strUser = e.options[e.selectedIndex].value;
+            $("#UniqueCategory").val(strUser)
+        });
+
+        $("#refreshLogs").on("click", function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/Position/RefreshRunnerPosition/",
+                data: {
+                    pCategory: $("#UniqueCategory").val()
+                },
+                error: function (error) {
+                    sapte.showError(error.responseText, "Error getting logs");
+                },
+                success: function success(result) {
+                    $("#RunnerTarget").html(result);
+                }
+            });
+
+        });
+
+    });
+</script>
+
+<h2 style=" padding-top:0px;">Clasificación y Resultados</h2>
+<br />
+<div class="form-group">
+    <table>
+        <tr>
+            <td>
+                <label> Elige una Categoria </label>
+            </td>
+            <td style="width: 200px; padding-right: 4px; padding-left: 10px;">
+                @Html.DropDownList("CategoriesAvailable", null, new { @class = "form-control", id = "Categories" })
+            </td>
+            <td>
+                <div>
+                    <span id="refreshLogs" class="btn btn-primary btn-sm" style="height: 30px; width: 31px;" title="Refresh logs">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                    </span>
+                </div>
+            </td>
+            <td>
+                @Html.Hidden("UniqueValue", null, new { @class = "form-control", id = "UniqueCategory" })
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="RunnerTarget">
+    @{Html.RenderPartial("PositionView");}
+</div>
+
+
+

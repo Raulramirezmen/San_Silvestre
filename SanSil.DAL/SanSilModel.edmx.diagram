@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="02a2ab7d3fa043ce8b1ca1ca64004e20" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="SanSilvestreModel.Category" Width="2" PointX="11.375" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="SanSilvestreModel.Competition" Width="2" PointX="11.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SanSilvestreModel.Gender" Width="2" PointX="8.875" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SanSilvestreModel.Log" Width="2" PointX="3.5" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SanSilvestreModel.Role" Width="2" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SanSilvestreModel.User" Width="2" PointX="1.375" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SanSilvestreModel.UserRole" Width="2" PointX="3" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="SanSilvestreModel.FK_UserRoles_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="SanSilvestreModel.FK_UserRoles_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SanSilvestreModel.Runner" Width="2.5" PointX="5.625" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SanSilvestreModel.Competition_Runner" Width="2" PointX="8.625" PointY="0.5" />
+        <AssociationConnector Association="SanSilvestreModel.FK_Competition_Runner_Category" />
+        <AssociationConnector Association="SanSilvestreModel.FK_Competition_Runner_Competition" />
+        <AssociationConnector Association="SanSilvestreModel.FK_Competition_Runner_Runner" />
+        <AssociationConnector Association="SanSilvestreModel.FK_Runner_Gender" />
+        <EntityTypeShape EntityType="SanSilvestreModel.DocumentType" Width="2" PointX="8.875" PointY="4.5" />
+        <AssociationConnector Association="SanSilvestreModel.FK_Runner_DocumentType" />
+        <EntityTypeShape EntityType="SanSilvestreModel.Competition_Category" Width="2" PointX="13.625" PointY="2.875" />
+        <AssociationConnector Association="SanSilvestreModel.FK_CompetitionCat_Category" />
+        <AssociationConnector Association="SanSilvestreModel.FK_CompetitionCat_Competition" />
+        <AssociationConnector Association="SanSilvestreModel.FK_CompetitionCat_Gender" />
+        <AssociationConnector Association="SanSilvestreModel.FK_Competition_Runner_Gender" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

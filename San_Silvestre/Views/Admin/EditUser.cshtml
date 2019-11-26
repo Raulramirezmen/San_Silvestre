@@ -1,0 +1,90 @@
+﻿@model San_Silvestre.Models.UserModel
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        sapte.initValidate();
+        $.validator.unobtrusive.parse("#editUserForm");
+
+        @*@if (Model.UserId != 0)
+        {
+            @:$("#User")[0].selectize.disable();
+                }*@
+
+        $("#RoleId").selectize({
+            create: false,
+            allowEmptyOption: false,
+            onChange: function (value) {
+                sapte.selectizeValidate($("#RoleId"), value, $("#RoleId-error"));
+            }
+        });
+
+    });
+
+</script>
+
+
+@using (Ajax.BeginForm("SaveUser", "Admin", null, new AjaxOptions
+{
+    AllowCache = false,
+    HttpMethod = "Post",
+    OnSuccess = "sapte.editUserSuccess",
+    OnFailure = "sapte.editUserFail",
+}, new
+        {
+            id = "editUserForm"
+        }))
+{
+    @Html.ValidationSummary(true)
+ 
+                                           
+    <div id="editUserError" class="alert alert-danger" role="alert" style="display: none;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span></span>
+    </div>
+
+    @Html.HiddenFor(model => model.UserId)
+    @Html.HiddenFor(model => model.UserId, new { @class = "validate-hidden" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.UserName, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Nombre de Usuario" })
+        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FullName, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", placeholder = "Nombre y Apellidos" })
+        @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmailID, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.EmailID, new { @class = "form-control form-inline", placeholder = "Correo Electrónico" })
+        @Html.ValidationMessageFor(model => model.EmailID, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Password, new { @class = "control-label" })
+        @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Contraseña" })
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label" })
+        @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group form-inline form-horizontal">
+        @Html.LabelFor(model => model.IsActive, new { @class = "control-label" })
+        @Html.CheckBoxFor(model => model.IsActive, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Roles, new { @class = "control-label" })
+        @Html.DropDownListFor(model => model.RoleId,  Model.Roles, "Selecciona un Rol", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+    </div>
+    @Html.HiddenFor(model => model.ExistingId, new { @class = "validate-hidden" })
+    @Html.ValidationMessageFor(model => model.ExistingId, "", new { @class = "text-danger" })
+
+}
+
+

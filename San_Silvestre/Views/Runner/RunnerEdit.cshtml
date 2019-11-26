@@ -1,0 +1,326 @@
+﻿@model San_Silvestre.Models.RunnerModel
+@using Roles = SanSil.BLL.Enums.Roles;
+
+@{
+    ViewBag.Title = "RunnerEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/Scripts/jquery-ui.min.js")
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+
+@Styles.Render("~/Content/jquery-ui.css")
+@Scripts.Render("~/Scripts/selectize.js")
+@Scripts.Render("~/Scripts/SapTe.validate.js")
+@Scripts.Render("~/Scripts/SapTe.user.js")
+@Scripts.Render("~/Scripts/SanSilScripts/SanSil.Dialog.js")
+@Styles.Render("~/Content/selectize.bootstrap3.css")
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        sapte.initValidate();
+        $.validator.unobtrusive.parse("#InsertRunnerForm");
+
+        //$("#GenderId").selectize({
+        //    create: false,
+        //    allowEmptyOption: false,
+        //    onChange: function (value) {
+        //        sapte.selectizeValidate($("#GenderId"), value, $("#GenderId-error"));
+        //    }
+        //});
+        //$("#DocumentTypeId").selectize({
+        //    create: false,
+        //    allowEmptyOption: false,
+        //    onChange: function (value) {
+        //        sapte.selectizeValidate($("#DocumentTypeId"), value, $("#DocumentTypeId-error"));
+        //    }
+        //});
+
+        $('#DNI').on('blur', function () {
+            if (SanSil.valida_nif_cif_nie() < 0) {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_INFO,
+                    title: "San Silvestre Villa de Mora - 2019",
+                    message: "Nif/Nie Incorrecto. Introduzca un valor valido.",
+                    buttons: [
+                        {
+                            cssClass: "btn-primary btn-md",
+                            label: "Ok",
+                            action: function (dialog) {
+                                dialog.close();
+                                $('#DNI').val('');
+                                $('#DNI').focus;
+                            }
+                        }
+                    ]
+                });
+            }
+        });
+
+        $(function () {
+            //$('#Submit').click(function (e) {
+            $('#InsertRunnerForm').submit(function (e) {
+                e.preventDefault();
+
+                var runnerModel = {
+                    Name: $("#Name").val(),
+                    SurName: $("#SurName").val(),
+                    EMail: $("#ConfirmEmail").val(),
+                    ConfirmEmail: $("#ConfirmEmail").val(),
+                    Club: $("#Club").val(),
+                    YearBirthday: $("#YearBirthday").val(),
+                    GenderId: $("#GenderId").val(),
+                    PostalCode: $("#PostalCode").val(),
+                    Telephone: $("#Telephone").val(),
+                    DocumentTypeId: $("#DocumentTypeId").val(),
+                    DNI: $("#DNI").val(),
+                    IsLocalRunner: $("#IsLocalRunner").val(),
+                    Dorsal: $("#Dorsal").val()
+                }
+
+                $.ajax({
+                    url: "/Runner/SaveRunner",
+                    type: "Post",
+                    datatype: "json",
+                    success: function (result) {
+                        BootstrapDialog.show({
+                            type: BootstrapDialog.TYPE_INFO,
+                            title: "San Silvestre - 2015",
+                            message: result.Message,
+                            buttons: [
+                                {
+                                    cssClass: "btn-primary btn-md",
+                                    label: "Ok",
+                                    action: function (dialog) {
+                                        dialog.close();
+                                        if (result.Status == true) {
+                                            SanSil.ClearInput();
+                                        }
+                                        
+                                    }
+                                }
+                            ]
+                        });
+                    },
+                    data: runnerModel,
+                    error: function (result) {
+                        BootstrapDialog.show({
+                            type: BootstrapDialog.TYPE_DANGER,
+                            title: "San Silvestre - 2015",
+                            message: result.Message,
+                            buttons: [
+                                {
+                                    cssClass: "btn-danger btn-md",
+                                    label: "Ok",
+                                    action: function (dialog) {
+                                        dialog.close();
+                                    }
+                                }
+                            ]
+                        });
+                    }
+                });
+                return false;
+            });
+        });
+
+    });
+</script>
+
+
+<h2>Datos de Inscripción</h2>
+
+<form id="InsertRunnerForm">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.AntiForgeryToken()
+    <div id="editRunnerError" class="alert alert-danger" role="alert" style="display: none;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <span></span>
+    </div>
+
+    @*<div>
+            @Html.ActionLink("Ir a Página Principal", "Index", "Admin")
+    </div>*@
+    <div class="row">
+        <div class="col-md-offset-1 , col-md-10">
+            <div style="border: 2px solid #a1a1a1;padding: 10px 40px; border-radius: 5px;">
+                @*@Html.HiddenFor(model => model.DocumentTypeId)*@
+                @*@Html.HiddenFor(model => model.CompRunner.CompetitionId)*@
+                @Html.HiddenFor(model => model.Id, new { @class = "validate-hidden" })
+
+                <div class="row", style="margin-bottom:10px; margin-right:0px">
+                    <div class="form-group form-horizontal">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-3, col-md-5" style="padding-left:0px">
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Nombre", id = "Name" })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Dorsal, new { @class = "control-label", style = "width:100px" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.Dorsal, new { @class = "form-control", placeholder = "Número", id = "Dorsal" })
+                            @Html.ValidationMessageFor(model => model.Dorsal, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                @*<div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-3" style="width: 30%">
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Nombre", id = "Name" })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-offset-8">
+                            @Html.LabelFor(model => model.Dorsal, new { @class = "control-label", style = "width:200px" })
+                        </div>
+                    </div>
+
+                </div>*@
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.SurName, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-3">
+                            @Html.TextBoxFor(model => model.SurName, new { @class = "form-control", placeholder = "Apellidos", id = "SurName" })
+                            @Html.ValidationMessageFor(model => model.SurName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-3">
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Correo Electronico", id = "Email" })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ConfirmEmail, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-3">
+                            @Html.TextBoxFor(model => model.ConfirmEmail, new { @class = "form-control", id = "ConfirmEmail" })
+                            @Html.ValidationMessageFor(model => model.ConfirmEmail, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Club, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-3">
+                            @Html.TextBoxFor(model => model.Club, new { @class = "form-control", placeholder = "Nombre del club al que pertenece", id = "Club" })
+                            @Html.ValidationMessageFor(model => model.Club, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.YearBirthday, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-4" style="width: 30%" ;>
+                            @Html.TextBoxFor(model => model.YearBirthday, new { @class = "form-control", placeholder = "4 digitos", width = "50%", id = "YearBirthday", Value = Model.YearBirthday == 0 ? "" : Model.YearBirthday.ToString() })
+                            @Html.ValidationMessageFor(model => model.YearBirthday, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @*<label style=" padding-top : 10px"> Sexo </label>*@
+                            @Html.LabelFor(model => model.GenderId, new { @class = "control-label", style = " padding-top : 10px" })
+                        </div>
+                        <div class="col-md-offset-4" style="width: 30%" ;>
+                            @Html.DropDownListFor(model => model.GenderId, Model.GenderAvailables, "", new { @class = "form-control", id = "GenderId" })
+                            @Html.ValidationMessageFor(model => model.GenderId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.PostalCode, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-4" style="width: 30%" ;>
+                            @Html.TextBoxFor(model => model.PostalCode, new { @class = "form-control", placeholder = 99999, id = "PostalCode" })
+                            @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.Telephone, new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-4" style="width: 30%" ;>
+                            @Html.TextBoxFor(model => model.Telephone, new { @class = "form-control", placeholder = 999999999, id = "Telephone" })
+                            @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-inline, form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            @*@Html.LabelFor(model => model.DocumentTypeAvailables, new { @class = "control-label" })*@
+                            <label style=" padding-top : 10px"> DNI,NIE </label>
+                        </div>
+                        <div class="col-md-offset-4">
+                            <div class="col-md-4" style="padding-left:0px">
+                                @Html.DropDownListFor(model => model.DocumentTypeId, Model.DocumentTypeAvailables, "", new { @class = "form-control", id = "DocumentTypeId" })
+                            </div>
+                            <div class="col-md-6" style="padding-left:0px">
+                                @Html.TextBoxFor(model => model.DNI, new { @class = "form-control text-uppercase", placeholder = "", id = "DNI" })
+                                @Html.ValidationMessageFor(model => model.DNI, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-inline form-horizontal">
+                    @Html.LabelFor(model => model.IsLocalRunner, new { @class = "control-label" })
+                    @Html.CheckBoxFor(model => model.IsLocalRunner, new { @class = "form-control", id = "IsLocalRunner" })
+
+                    <label style=" font-size:small">
+
+                        Se consideran corredores locales aquellos que reúnan alguna de estas condiciones: <br />
+                        - Que sean naturales de Mora. <br />
+                        - Que se encuentren empadronados en Mora. <br />
+                        - Que alguno de sus ascendientes (padre o madre) sean naturales de Mora. <br />
+                        - Que previamente lo haya indicado en la inscripción, poniendo la palabra 'MORA' en el dorsal.
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Inscribirse" class="btn btn-primary" id="Submit" />
+                    <button id="CloseRunner" class="btn btn-primary btn-sm" title="Cerrar" onclick="location.href ='@Url.Action("Index", "Home")'">Volver al Menu Principal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@*}*@    
+</form>
+
+
+
+
+
