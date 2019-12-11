@@ -23,6 +23,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database Scripts", "Database Scripts", "{A31F5E93-AC74-4A46-BC6A-818BAB041A97}"
+	ProjectSection(SolutionItems) = preProject
+		San_Silvestre_Data.sql = San_Silvestre_Data.sql
+		San_Silvestre_Script.sql = San_Silvestre_Script.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +50,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A31F5E93-AC74-4A46-BC6A-818BAB041A97} = {80333505-5499-4B6A-8F01-6DD0E0CF585C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AEBA52C8-EB5B-46D6-AC8A-2604AEFE22A9}
