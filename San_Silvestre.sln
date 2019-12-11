@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "San_Silvestre", "San_Silvestre\San_Silvestre.csproj", "{4D648A40-BF00-4B74-A5EC-FE559681A632}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -14,6 +14,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SanSil.BLL", "SanSil.BLL\SanSil.BLL.csproj", "{7B26A97D-7BE3-4557-8150-141C23898433}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CB653139-403E-47D4-9654-2A0BB774131A} = {CB653139-403E-47D4-9654-2A0BB774131A}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{80333505-5499-4B6A-8F01-6DD0E0CF585C}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
@@ -37,5 +44,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AEBA52C8-EB5B-46D6-AC8A-2604AEFE22A9}
 	EndGlobalSection
 EndGlobal
